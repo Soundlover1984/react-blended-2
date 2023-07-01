@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import { BaseTable, THead, Th, Tr, Td } from './CryptoHistory.styled';
@@ -16,12 +16,12 @@ export const CryptoHistory = ({ items }) => {
       </THead>
 
       <tbody>
-        {items.map((item, index) => (
-          <Tr key={item.id}>
-            <Td>{index + 1}</Td>
-            <Td>{item.price}</Td>
-            <Td>{item.amount}</Td>
-            <Td>{format(new Date(item.date), 'MM/dd/yyyy, h:mm a')}</Td>
+        {items.map(({ id, price, amount, date }, index) => (
+          <Tr key={id}>
+            <Td>{index += 1}</Td>
+            <Td>{price}</Td>
+            <Td>{amount}</Td>
+            <Td>{format(new Date(date), 'MM/dd/yyyy, h:mm a')}</Td>
           </Tr>
         ))}
       </tbody>
@@ -36,6 +36,7 @@ CryptoHistory.propTypes = {
       price: PropTypes.number.isRequired,
       amount: PropTypes.number.isRequired,
       date: PropTypes.string.isRequired,
+      
     })
   ).isRequired,
 };
