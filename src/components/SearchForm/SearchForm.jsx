@@ -8,17 +8,19 @@ export class SearchForm extends Component {
     value: '',
   };
 
-  handleChange = ({ target: { value } }) => { this.setState({ value }) };
+  handleChange = ({ target: { value } }) => {
+    this.setState({ value });
+  };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state.value);
+    this.props.onSubmit(this.state.value.trim());
     this.setState({ value: '' });
   };
 
   render() {
     return (
-      <SearchFormStyled  onSubmit={this.handleSubmit}>
+      <SearchFormStyled onSubmit={this.handleSubmit}>
         <FormBtn type="submit">
           <FiSearch size="16px" />
         </FormBtn>
