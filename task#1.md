@@ -1,69 +1,97 @@
-# Картка блогу
+# Пошук зображень
 
-Необхідно створити компонент `<BlogCard/>`, за допомогою якого ми могли б
-відображати інформацію про користувача соціальної мережі. Дані про користувача
-лежать у файлі [article.json](./src/data/article.json).
+Напиши застосунок пошуку зображень за ключовим словом. Прев'ю робочого
+застосунку
 
-[![Прев'ю компонента BlogCard](https://i.gyazo.com/5ce54e49016220bcde9209b893eb5e62.jpg)](https://gyazo.com/5ce54e49016220bcde9209b893eb5e62)
+[![Превью](https://i.gyazo.com/76384ee7d41664406ee52acb77351f07.jpg)](https://gyazo.com/76384ee7d41664406ee52acb77351f07)
 
-## Опис компонента `<BlogCard/>`
+Створи компоненти `<SearchForm>`, `<ImageCard>`, `<Button>`. Для створення сітки
+використовуй styled-components `<Grid>` та `<GridItem>`
 
-Компонент повинен приймати кілька пропсів з інформацією про користувача:
+> Тут самі файли [Grid](./src/components/Grid/Grid.styled.jsx)
 
-- `poster` — постер картки
-- `tag` — категорія статті
-- `title` — заголовок статті
-- `description` — опис
-- `name` — ім'я користувача
-- `avatar` — аватар користувача
-- `postedAt` — час створення (рекомендовано в форматі від дати до сьогодні)
+## Інструкція Pexels API
 
-Компонент повинен створювати наступну структуру.
+Для HTTP-запитів використовуй публічний сервіс пошуку зображень
+[ Pexels](https://www.pexels.com/api/documentation/). Зареєструйся та отримай
+приватний ключ доступу.
 
-```jsx
-<Card>
-  <CardHeader>
-    <CardPoster
-      src="https://source.unsplash.com/600x400/?computer"
-      alt="card__image"
-    />
-  </CardHeader>
-  <CardBody>
-    <Tag>Technology</Tag>
-    <CardTitle>What's new in 2022 Tech</CardTitle>
-    <CardText>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis
-      molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!
-    </CardText>
-  </CardBody>
-  <CardFooter>
-    <UserBox>
-      <Avatar src="https://i.pravatar.cc/40?img=1" alt="Jane Doe" />
-      <UserInfo>
-        <UserName>Jane Doe</UserName>
-        <Date>2h ago</Date>
-      </UserInfo>
-    </UserBox>
-  </CardFooter>
-</Card>
-```
-
-> Для форматування дати використовуйте метод
-> [formatDistanceToNow](https://date-fns.org/v2.28.0/docs/formatDistanceToNow)
-> бібліотеки **date-fns**
-
-## Приклад використання
+Приклад HTTP-запиту.
 
 ```js
-import article from 'data/article.json';
+import axios from 'axios';
 
-<BlogCard
-  poster={article.poster}
-  tag={article.tag}
-  title={article.title}
-  description={article.description}
-  userName={article.name}
-  avatar={article.avatar}
-  postedAt={article.postedAt}
-/>;
+const API_KEY = 'тут вставити ключ';
+axios.defaults.baseURL = 'https://api.pexels.com/v1/';
+axios.defaults.headers.common['Authorization'] = API_KEY;
+axios.defaults.params = {
+  orientation: 'landscape',
+  per_page: 15,
+};
 ```
+
+Pexels API підтримує пагінацію, за замовчуванням параметр `page` дорівнює `1`.
+Нехай у відповіді надходить по 15 об'єктів, встановлено в параметрі `per_page`.
+Не забудь, що під час пошуку за новим ключовим словом, необхідно скидати
+значення `page` до `1`.
+
+У відповіді від API приходить масив об'єктів, в яких тобі цікаві лише наступні
+властивості.
+
+- `id` - унікальний ідентифікатор
+- `avg_color` - колір фотографії,
+- `alt` - опис фото,
+- `src` - об'єкт з розмірами картинок, нам цікавий розмір `large`
+
+## Опис компонента `<SearchForm>`
+
+Компонент приймає один проп `onSubmit` - функцію для передачі значення інпута
+під час сабміту форми. Він буде наступної структури.
+
+```jsx
+<SearchFormStyled>
+  <FormBtn type="submit">
+    <FiSearch size="16px" />
+  </FormBtn>
+  <InputSearch
+    placeholder="What do you want to write?"
+    name="search"
+    required
+    autoFocus
+  />
+</SearchFormStyled>
+```
+
+## Опис компонента галереї `<Grid/>`
+
+Список карток зображень. Створює компонент наступної структури.
+
+```jsx
+<Grid>
+  {/*
+    Набір <GridItem></GridItem> із зображеннями
+    */}
+</Grid>
+```
+
+## Опис компонента `<GridItem>`
+
+Компонент елемента списку із зображенням. Створює компонент наступної структури.
+
+```jsx
+<GridItem>
+  <CardItem>
+    <img src="" alt="" />
+  </CardItem>
+</GridItem>
+```
+
+## Опис компонента `<Button>`
+
+При натисканні на кнопку `Load more` повинна довантажуватись наступна порція
+зображень і рендеритися разом із попередніми. Кнопка повинна рендеритися лише
+тоді, коли є якісь завантажені зображення. Якщо масив зображень порожній, кнопка
+не рендериться.
+
+
+
