@@ -7,16 +7,18 @@ export const CountryList = ({ countries }) => {
   const location = useLocation();
   return (
     <Grid>
-      {countries.map((country) => {
+      {countries.map(country => {
         return (
           <GridItem key={country.id}>
-            <Link to={`${routes.COUNTRY}/${country.id}`} state={{ from: location}}>
+            <Link
+              to={`${routes.COUNTRY}/${country.id}`}
+              state={{ from: location }}
+            >
               <img src={country.flag} alt={country.country} />
             </Link>
           </GridItem>
-        )
-        
+        );
       })}
-   </Grid>
+    </Grid>
   );
 };
