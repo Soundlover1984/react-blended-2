@@ -1,3 +1,5 @@
+import { fetchByRegion } from 'service/country-service';
+import { useState, useEffect } from 'react';
 import {
   Container,
   SearchForm,
@@ -8,10 +10,38 @@ import {
 } from 'components';
 
 export const CountrySearch = () => {
+  const [countries, setCountries] = useState([]);
+  const [query, setQuery] = useState('');
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = value => {
+    setQuery(value);
+  };
+
+  useEffect(() => {
+    if (!query) return;
+    setIsLoading(true);
+    const getCountries = async () => {
+      const countries = await fetchByRegion(query);
+      setCountries(countries);
+    };
+    try {
+      getCountries();
+    } catch (error) {
+      setError(error)
+    } finally {
+      setIsLoading(false);
+    }
+  }, [query]);
+
   return (
     <Section>
       <Container>
-        <h2>CountrySearch</h2>
+        <SearchForm onSubmit={onSubmit} />
+        {error && <Heading>{error.message}</Heading>}
+        {isLoading && <Loader />}
+        <CountryList countries={countries} />
       </Container>
     </Section>
   );

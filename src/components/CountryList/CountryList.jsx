@@ -9,7 +9,7 @@ export const CountryList = ({ countries }) => {
     <Grid>
       {countries.map((country) => {
         return (
-          <GridItem>
+          <GridItem key={country.id}>
             <Link to={`${routes.COUNTRY}/${country.id}`} state={{ from: location}}>
               <img src={country.flag} alt={country.country} />
             </Link>
