@@ -4,6 +4,7 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState: {
     value: [],
+    filter: "",
   },
   reducers: {
     addTodo: (state, { payload }) => {
@@ -11,6 +12,9 @@ export const todoSlice = createSlice({
     },
     deleteTodo: (state, { payload }) => {
       state.value = state.value.filter(({ id }) => id !== payload);
+    },
+    changeFilter: (state, { payload }) => {
+      state.filter = payload;
     },
   },
 });
