@@ -35,6 +35,12 @@ export const GlobalStyles = css`
     margin: 0;
   }
 
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
   button {
     padding: 0;
     border: none;
@@ -47,12 +53,6 @@ export const GlobalStyles = css`
   a {
     text-decoration: none;
     color: inherit;
-  }
-
-  img {
-    display: block;
-    max-width: 100%;
-    height: auto;
   }
 
   code {
