@@ -1,5 +1,4 @@
 import storage from "redux-persist/lib/storage";
-import { createStore } from "redux";
 
 import {
   persistStore,
