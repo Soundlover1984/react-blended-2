@@ -8,23 +8,11 @@ import {
   Text,
   Todo,
 } from "components";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addTodo } from "redux/todoSlice";
+import { useSelector } from "react-redux";
 import { getTodos } from "redux/selectors";
 
 export const App = () => {
-  const dispatch = useDispatch();
   const todos = useSelector(getTodos);
-
-  useEffect(() => {
-    const todos = JSON.parse(localStorage.getItem("todos"));
-
-    if (todos) {
-      dispatch(addTodo(todos));
-    }
-  }, [dispatch]);
-
   // useEffect(() => {
   // localStorage.setItem("todos", JSON.stringify(todos));
   // }, [todos]);
