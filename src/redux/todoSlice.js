@@ -5,10 +5,17 @@ export const todoSlice = createSlice({
   initialState: {
     value: [],
   },
-  reducers: {},
+  reducers: {
+    addTodo: (state, { payload }) => {
+      state.value = [...state.value, payload];
+    },
+    deleteTodo: (state, { payload }) => {
+      state.value = state.value.filter(({ id }) => id !== payload);
+    },
+  },
 });
 
 // Action creators are generated for each case reducer function
-export const {} = todoSlice.actions;
+export const { addTodo, deleteTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;

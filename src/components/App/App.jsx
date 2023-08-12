@@ -1,6 +1,3 @@
-import { Component } from "react";
-import { nanoid } from "nanoid";
-
 import {
   Container,
   Grid,
@@ -11,51 +8,54 @@ import {
   Text,
   Todo,
 } from "components";
-import { useState } from "react";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo } from "redux/todoSlice";
+import { getTodos } from "redux/selectors";
 
 export const App = () => {
-  const [todos, setTodos] = useState([]);
+  const dispatch = useDispatch();
+  const todos = useSelector(getTodos);
 
   useEffect(() => {
     const todos = JSON.parse(localStorage.getItem("todos"));
 
     if (todos) {
-      this.setState(() => ({ todos }));
+      dispatch(addTodo(todos));
     }
-  }, []);
+  }, [dispatch]);
 
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+  // useEffect(() => {
+  // localStorage.setItem("todos", JSON.stringify(todos));
+  // }, [todos]);
 
-  const addTodo = (text) => {
-    const todo = {
-      id: nanoid(),
-      text,
-    };
+  // const addTodo = (text) => {
+  //   const todo = {
+  //     id: nanoid(),
+  //     text,
+  //   };
 
-    setTodos((prevTodos) => ({
-      todos: [...prevTodos, todo],
-    }));
-  };
+  //   setTodos((prevTodos) => ({
+  //     todos: [...prevTodos, todo],
+  //   }));
+  // };
 
-  const handleSubmit = (data) => {
-    addTodo(data);
-  };
+  // const handleSubmit = (data) => {
+  //   addTodo(data);
+  // };
 
-  const deleteTodo = (id) => {
-    setTodos((prevTodos) => ({
-      todos: prevTodos.filter((todo) => todo.id !== id),
-    }));
-  };
+  // const deleteTodo = (id) => {
+  //   setTodos((prevTodos) => ({
+  //     todos: prevTodos.filter((todo) => todo.id !== id),
+  //   }));
+  // };
 
   return (
     <>
       <Header />
       <Section>
         <Container>
-          <SearchForm onSubmit={handleSubmit} />
+          <SearchForm />
 
           {todos.length === 0 && (
             <Text textAlign="center">There are no any todos ... </Text>
@@ -69,7 +69,7 @@ export const App = () => {
                     id={todo.id}
                     text={todo.text}
                     counter={index + 1}
-                    onClick={deleteTodo}
+                    // onClick={deleteTodo}
                   />
                 </GridItem>
               ))}
